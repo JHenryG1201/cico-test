@@ -25,7 +25,7 @@ jobs:
         HOST: ${{ secrets.EC2_HOST }}
         USER: ${{ secrets.EC2_USER }}
       run: |
-        ssh -o StrictHostKeyChecking=no $USER@$HOST << 'EOF'
+        ssh -tt -o StrictHostKeyChecking=no $USER@$HOST << 'EOF'
           cd /cico-test
           git pull origin main
           docker compose down
