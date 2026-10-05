@@ -16,7 +16,7 @@ jobs:
     - name: Set Up SSH Key
       shell: bash
       run: |
-        printf '%s\n' "${{ secrets.EC2_KEY }}" | tr -d '\r' > ~/my-test-key.pem
+        printf '%s\n' "${{ secrets.EC2_KEY }}" | tr -d '\r' > /home/runner/my-test-key.pem
         chmod 600 /home/runner/my-test-key.pem
 
     - name: Deploy Code
