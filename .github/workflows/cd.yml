@@ -21,15 +21,12 @@ jobs:
 
     - name: Deploy Code
       shell: bash
-      env:
-        HOST: ${{ secrets.EC2_HOST }}
-        USER: ${{ secrets.EC2_USER }}
       run: |
-        ssh -tt -o StrictHostKeyChecking=no $USER@$HOST << 'EOF'
-          cd /cico-test
-          git pull origin main
-          docker compose down
-          docker compose up -d --build
-          docker compose exec -T web python manage.py migrate
-          docker compose exec -T web python manage.py collectstatic --noinput
-        EOF
+        # Copy all project files to the EC2 instance
+        scp -o StrictHostKeyChecking=no -i ~/my-test-key.pem -r ./myapp/* ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }}:/home/${{ secrets.EC2_USER }}/cico-test/
+        
+        # SSH into the EC2 instance and deploy
+        ssh -o StrictHostKeyChecking=no -i ~/my-test-key.pem ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} "
+          cd /home/${{ secrets.EC2_USER }}/cico-test &&
+          docker compose up --build -d
+        "
