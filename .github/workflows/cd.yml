@@ -22,7 +22,6 @@ jobs:
     - name: Deploy Code
       shell: bash
       run: |
-        cd ~/
         ssh -i my-test-key.pem "${{ secrets.EC2_USER }}"@"${{ secrets.EC2_HOST }}"
         cd test
         git pull
