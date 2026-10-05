@@ -28,6 +28,6 @@ jobs:
         # SSH into the EC2 instance and deploy
         ssh -o StrictHostKeyChecking=no -i ~/my-test-key.pem ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} "
           cd /home/${{ secrets.EC2_USER }}/cico-test
-          docker-compose pull
-          docker-compose up -d --build --force-recreate
+          docker compose pull
+          docker compose up -d --build --force-recreate
         "
