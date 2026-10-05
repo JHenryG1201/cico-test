@@ -22,6 +22,11 @@ jobs:
     - name: Deploy Code
       shell: bash
       run: |
-        ssh -i ~/my-test-key.pem "${{ secrets.EC2_USER }}"@"${{ secrets.EC2_HOST }}"
-        cd test
-        git pull
+        # Copy all project files to the EC2 instance
+        scp -o StrictHostKeyChecking=no -i ~/my-test-key.pem -r ./myapp/* ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }}:/home/${{ secrets.EC2_USER }}/Django_Project/
+        
+        # SSH into the EC2 instance and deploy
+        ssh -o StrictHostKeyChecking=no -i ~/my-test-key.pem ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} "
+          cd /home/${{ secrets.EC2_USER }}/Django_Project &&
+          docker-compose up --build -d
+        "
