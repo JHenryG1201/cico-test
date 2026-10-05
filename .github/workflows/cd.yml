@@ -28,5 +28,5 @@ jobs:
         # SSH into the EC2 instance and deploy
         ssh -o StrictHostKeyChecking=no -i ~/my-test-key.pem ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} "
           cd /home/${{ secrets.EC2_USER }}/test &&
-          docker-compose up --build -d
+          docker compose up --build -d
         "
