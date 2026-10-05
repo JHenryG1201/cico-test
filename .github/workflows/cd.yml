@@ -22,4 +22,4 @@ jobs:
     - name: Deploy Code
       shell: bash
       run: |
-        git pull origin
+        git pull origin main
